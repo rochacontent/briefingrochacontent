@@ -2,1246 +2,1048 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rocha Content · Briefing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#D94194">
+<title>Rocha Content - Briefing</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-  @font-face {
-    font-family: 'Helvetica World';
-    src: local('Helvetica World'), local('Helvetica'), local('Arial');
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Helvetica World', 'Helvetica', 'Arial', sans-serif;
-  }
+html, body { overflow-x: hidden; width: 100%; }
 
-  :root {
-    --cream: #EFE0B3;
-    --cream-light: #F7ECCC;
-    --cream-soft: #FAF3E0;
-    --white: #FFFFFF;
-    --pink: #D94194;
-    --orange: #FF751F;
-    --pink-soft: #FAE3F0;
-    --orange-soft: #FFE5D1;
-    --dark: #1A1612;
-    --gray: #6B6258;
-    --light-gray: #D4C9B5;
-    --shadow: 0 8px 32px rgba(26, 22, 18, 0.08);
-    --shadow-lg: 0 20px 60px rgba(26, 22, 18, 0.12);
-    --gradient: linear-gradient(135deg, var(--pink) 0%, var(--orange) 100%);
-  }
+body {
+  font-family: 'Helvetica World', 'Helvetica', Arial, sans-serif;
+  background: linear-gradient(135deg, #F5EBD0 0%, #FAF3E0 100%);
+  min-height: 100vh;
+  color: #1A1612;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
 
+/* === HEADER === */
+.app-header {
+  background: #FFFFFF;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #EFE0B3;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-logo {
+  height: 38px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.step-counter {
+  font-size: 12px;
+  font-weight: 700;
+  color: #D94194;
+  background: #FAE3F0;
+  padding: 6px 14px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+
+/* === PROGRESS === */
+.progress-section {
+  background: #FFFFFF;
+  padding: 14px 20px;
+  border-bottom: 1px solid #EFE0B3;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1612;
+}
+
+.progress-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: #D94194;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #FAF3E0;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #D94194 0%, #FF751F 100%);
+  border-radius: 100px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* === MAIN CONTENT === */
+.app-main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 120px;
+}
+
+.step-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #D94194 0%, #FF751F 100%);
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.step-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  margin-bottom: 6px;
+  color: #1A1612;
+}
+
+.step-subtitle {
+  font-size: 14px;
+  color: #6B6258;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1612;
+}
+
+.required {
+  color: #D94194;
+  margin-left: 2px;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: #6B6258;
+  line-height: 1.4;
+  margin-top: -4px;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: #FAF3E0;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #1A1612;
+  transition: all 0.2s;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  background: #FFFFFF;
+  border-color: #D94194;
+  box-shadow: 0 0 0 3px rgba(217, 65, 148, 0.15);
+}
+
+.input::placeholder, .textarea::placeholder {
+  color: #D4C9B5;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.5;
+}
+
+.input.error, .textarea.error,
+.options-wrap.error, .sizes-wrap.error {
+  border-color: #D94141;
+}
+
+.options-wrap, .sizes-wrap {
+  border: 2px solid transparent;
+  border-radius: 14px;
+  transition: all 0.2s;
+}
+
+.options-wrap.error, .sizes-wrap.error {
+  padding: 4px;
+  background: rgba(217, 65, 65, 0.04);
+}
+
+.error-msg {
+  font-size: 12px;
+  color: #D94141;
+  display: none;
+  margin-top: 4px;
+}
+
+.error-msg.show { display: block; }
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option {
+  padding: 14px 16px;
+  background: #FAF3E0;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A1612;
+  transition: all 0.2s;
+}
+
+.option:active { transform: scale(0.98); }
+
+.option.selected {
+  background: linear-gradient(135deg, #D94194 0%, #FF751F 100%);
+  color: #FFFFFF;
+}
+
+.option-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #D4C9B5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.option.selected .option-check {
+  border-color: #FFFFFF;
+  background: #FFFFFF;
+}
+
+.option.selected .option-check::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  background: #D94194;
+  border-radius: 50%;
+}
+
+.sizes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.size {
+  padding: 18px 8px;
+  background: #FAF3E0;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A1612;
+  transition: all 0.2s;
+}
+
+.size:active { transform: scale(0.95); }
+
+.size.selected {
+  background: linear-gradient(135deg, #D94194 0%, #FF751F 100%);
+  color: #FFFFFF;
+  box-shadow: 0 6px 14px rgba(217, 65, 148, 0.25);
+}
+
+/* === FOOTER === */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 1px solid #EFE0B3;
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+}
+
+.btn {
+  padding: 14px 20px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-back {
+  background: #FAF3E0;
+  color: #1A1612;
+  flex: 0 0 auto;
+  padding: 14px 18px;
+}
+
+.btn-next {
+  flex: 1;
+  background: linear-gradient(135deg, #D94194 0%, #FF751F 100%);
+  color: #FFFFFF;
+}
+
+.btn-whatsapp {
+  background: #25D366;
+  color: #FFFFFF;
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+}
+
+/* === SUCCESS === */
+.success {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #D94194 0%, #FF751F 100%);
+  border-radius: 50%;
+  margin: 20px auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 16px 32px rgba(217, 65, 148, 0.3);
+}
+
+.success-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: #FFFFFF;
+  fill: none;
+  stroke-width: 3;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.success h2 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #D94194 0%, #FF751F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.success p {
+  font-size: 14px;
+  color: #6B6258;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.summary {
+  background: #FAF3E0;
+  border: 1px solid #EFE0B3;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.summary h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6B6258;
+  margin-bottom: 12px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #EFE0B3;
+  gap: 12px;
+}
+
+.summary-row:last-child { border: none; }
+.summary-row .label { color: #6B6258; flex-shrink: 0; }
+.summary-row .value { color: #1A1612; font-weight: 600; text-align: right; word-break: break-word; }
+
+.note {
+  background: linear-gradient(135deg, rgba(217, 65, 148, 0.08) 0%, rgba(255, 117, 31, 0.08) 100%);
+  border: 1px solid rgba(217, 65, 148, 0.15);
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #1A1612;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.note strong { color: #D94194; }
+
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.success-actions .btn {
+  width: 100%;
+}
+
+.btn-refazer {
+  background: #FAF3E0;
+  color: #1A1612;
+}
+
+/* === TOAST === */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #D94141;
+  color: #FFFFFF;
+  padding: 12px 22px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(217, 65, 65, 0.3);
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.fade-in { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === DESKTOP (acima de 768px) === */
+@media (min-width: 769px) {
   body {
     background: linear-gradient(135deg, #F5EBD0 0%, #FAF3E0 100%);
-    min-height: 100vh;
-    color: var(--dark);
-    overflow-x: hidden;
+    padding: 0;
   }
 
-  .app {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 24px;
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 24px;
-  }
-
-  .sidebar {
-    background: var(--white);
-    border-radius: 32px;
-    padding: 32px 20px;
-    box-shadow: var(--shadow);
-    height: fit-content;
-    position: sticky;
-    top: 24px;
-  }
-
-  .logo-area {
-    padding: 0 12px 28px;
-    border-bottom: 1px solid var(--cream);
-    margin-bottom: 24px;
-    text-align: center;
-  }
-
-  .logo-img {
-    max-width: 100%;
-    height: auto;
-    max-height: 80px;
-    object-fit: contain;
-  }
-
-  .logo-tag {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 10px;
-    color: var(--gray);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    background: var(--cream-soft);
-    border-radius: 100px;
-  }
-
-  .nav-title {
-    font-size: 11px;
-    color: var(--gray);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 0 12px;
-    margin-bottom: 12px;
-  }
-
-  .nav-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 14px;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    position: relative;
-    color: var(--gray);
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .nav-item:hover {
-    background: var(--cream-soft);
-    color: var(--dark);
-  }
-
-  .nav-item.active {
-    background: var(--gradient);
-    color: var(--white);
-    font-weight: 600;
-  }
-
-  .nav-item.completed::after {
-    content: '✓';
-    position: absolute;
-    right: 14px;
-    width: 18px;
-    height: 18px;
-    background: var(--pink);
-    color: var(--white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-  }
-
-  .nav-icon {
-    width: 32px;
-    height: 32px;
-    background: var(--cream-soft);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.25s;
-  }
-
-  .nav-item.active .nav-icon {
-    background: rgba(255,255,255,0.25);
-    color: var(--white);
-  }
-
-  .nav-icon svg {
-    width: 16px;
-    height: 16px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-  }
-
-  .progress-card {
-    background: var(--gradient);
+  .app-header {
+    background: #FFFFFF;
     border-radius: 20px;
-    padding: 24px;
-    margin-top: 24px;
-    color: var(--white);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .progress-card::before {
-    content: '';
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    background: var(--white);
-    opacity: 0.1;
-    border-radius: 50%;
-    top: -40px;
-    right: -40px;
-  }
-
-  .progress-card::after {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: var(--white);
-    opacity: 0.08;
-    border-radius: 50%;
-    bottom: -20px;
-    left: -20px;
-  }
-
-  .progress-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    opacity: 0.85;
-    margin-bottom: 8px;
-    position: relative;
-  }
-
-  .progress-percentage {
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: -1.5px;
-    margin-bottom: 12px;
-    position: relative;
-  }
-
-  .progress-bar {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 100px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: var(--white);
-    border-radius: 100px;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .progress-text {
-    font-size: 12px;
-    margin-top: 12px;
-    opacity: 0.9;
-    position: relative;
-  }
-
-  .main {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .header {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 28px 32px;
-    box-shadow: var(--shadow);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .header-left {
-    flex: 1;
-  }
-
-  .breadcrumb {
-    font-size: 12px;
-    color: var(--gray);
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
-  }
-
-  .header-title {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .header-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .icon-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--cream-soft);
+    margin: 24px auto 16px;
+    max-width: 720px;
+    padding: 20px 28px;
     border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    color: var(--dark);
+    position: relative;
+    box-shadow: 0 8px 32px rgba(26, 22, 18, 0.08);
   }
 
-  .icon-btn:hover {
-    background: var(--gradient);
-    color: var(--white);
-    transform: translateY(-2px);
-  }
-
-  .icon-btn svg {
-    width: 18px;
-    height: 18px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-  }
-
-  .content {
-    background: var(--white);
-    border-radius: 32px;
-    padding: 40px;
-    box-shadow: var(--shadow-lg);
-    min-height: 600px;
-  }
-
-  .step-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 8px;
-  }
-
-  .step-num {
-    width: 48px;
+  .app-logo {
     height: 48px;
-    background: var(--gradient);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--white);
   }
 
-  .step-info h2 {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.8px;
-    color: var(--dark);
-    line-height: 1.1;
+  .progress-section {
+    background: #FFFFFF;
+    border-radius: 20px;
+    margin: 0 auto 16px;
+    max-width: 720px;
+    padding: 18px 28px;
+    border: none;
+    box-shadow: 0 8px 32px rgba(26, 22, 18, 0.08);
   }
 
-  .step-info p {
-    font-size: 13px;
-    color: var(--gray);
-    margin-top: 2px;
+  .app-main {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 36px 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 20px 60px rgba(26, 22, 18, 0.08);
   }
 
-  .step-divider {
-    height: 1px;
-    background: linear-gradient(to right, var(--pink) 0%, var(--orange) 50%, transparent 100%);
-    margin: 28px 0 32px;
-    opacity: 0.3;
+  .step-title {
+    font-size: 32px;
   }
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .form-group.full {
-    grid-column: 1 / -1;
-  }
-
-  .form-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--dark);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .form-label .required {
-    color: var(--pink);
-    font-size: 14px;
-  }
-
-  .form-hint {
-    font-size: 11px;
-    color: var(--gray);
-    margin-top: -4px;
-    line-height: 1.4;
-  }
-
-  .form-input, .form-textarea, .form-select {
-    padding: 14px 16px;
-    background: var(--cream-soft);
-    border: 2px solid transparent;
-    border-radius: 14px;
-    font-size: 14px;
-    color: var(--dark);
-    transition: all 0.2s;
-    font-family: inherit;
-    width: 100%;
-  }
-
-  .form-input:focus, .form-textarea:focus, .form-select:focus {
-    outline: none;
-    background: var(--white);
-    border-color: var(--pink);
-    box-shadow: 0 0 0 4px rgba(217, 65, 148, 0.15);
-  }
-
-  .form-textarea {
-    resize: vertical;
-    min-height: 100px;
-    line-height: 1.5;
-  }
-
-  .form-input::placeholder, .form-textarea::placeholder {
-    color: var(--light-gray);
-  }
-
-  .options-grid {
+  .options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
-  .options-grid.cols-4 {
-    grid-template-columns: repeat(4, 1fr);
+  .options.options-4 {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .option-card {
-    padding: 14px 16px;
-    background: var(--cream-soft);
-    border: 2px solid transparent;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--dark);
-  }
-
-  .option-card:hover {
-    background: var(--cream-light);
-    transform: translateY(-1px);
-  }
-
-  .option-card.selected {
-    background: var(--gradient);
-    color: var(--white);
-    border-color: transparent;
-  }
-
-  .option-check {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid var(--light-gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .option-card.selected .option-check {
-    border-color: var(--white);
-    background: var(--white);
-  }
-
-  .option-card.selected .option-check::after {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: var(--pink);
-    border-radius: 50%;
-  }
-
-  .size-grid {
-    display: grid;
+  .sizes {
     grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
   }
 
-  .size-card {
-    padding: 16px 8px;
-    background: var(--cream-soft);
-    border: 2px solid transparent;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--dark);
-  }
-
-  .size-card:hover {
-    transform: translateY(-2px);
-    background: var(--cream-light);
-  }
-
-  .size-card.selected {
-    background: var(--gradient);
-    color: var(--white);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(217, 65, 148, 0.25);
-  }
-
-  .form-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 40px;
-    padding-top: 28px;
-    border-top: 1px solid var(--cream);
-  }
-
-  .step-indicator {
-    display: flex;
-    gap: 6px;
-  }
-
-  .step-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--light-gray);
-    transition: all 0.3s;
-  }
-
-  .step-dot.active {
-    background: var(--gradient);
-    width: 24px;
-    border-radius: 100px;
-  }
-
-  .step-dot.completed {
-    background: var(--orange);
-  }
-
-  .footer-actions {
-    display: flex;
-    gap: 12px;
-  }
-
-  .btn {
-    padding: 14px 28px;
+  .app-footer {
+    position: sticky;
+    bottom: 24px;
+    max-width: 720px;
+    margin: 0 auto 24px;
     border-radius: 100px;
     border: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    box-shadow: 0 8px 32px rgba(26, 22, 18, 0.12);
+    padding: 14px 20px;
   }
+}
 
-  .btn-secondary {
-    background: var(--cream-soft);
-    color: var(--dark);
+/* === DESKTOP GRANDE (acima de 1024px) === */
+@media (min-width: 1024px) {
+  .app-header, .progress-section, .app-main, .app-footer {
+    max-width: 880px;
   }
-
-  .btn-secondary:hover {
-    background: var(--cream);
-  }
-
-  .btn-primary {
-    background: var(--gradient);
-    color: var(--white);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(217, 65, 148, 0.3);
-  }
-
-  .btn-whatsapp {
-    background: #25D366;
-    color: var(--white);
-  }
-
-  .btn-whatsapp:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(37, 211, 102, 0.3);
-  }
-
-  .btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  .btn svg {
-    width: 14px;
-    height: 14px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2.5;
-  }
-
-  .success-screen {
-    text-align: center;
-    padding: 40px 20px;
-  }
-
-  .success-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--gradient);
-    border-radius: 50%;
-    margin: 0 auto 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 16px 32px rgba(217, 65, 148, 0.3);
-  }
-
-  .success-icon svg {
-    width: 40px;
-    height: 40px;
-    stroke: var(--white);
-    fill: none;
-    stroke-width: 3;
-  }
-
-  @keyframes pop {
-    0% { transform: scale(0); }
-    100% { transform: scale(1); }
-  }
-
-  .success-screen h2 {
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    margin-bottom: 12px;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .success-screen p {
-    font-size: 15px;
-    color: var(--gray);
-    max-width: 480px;
-    margin: 0 auto 32px;
-    line-height: 1.6;
-  }
-
-  .summary-card {
-    background: var(--cream-soft);
-    border-radius: 20px;
-    padding: 24px;
-    text-align: left;
-    max-width: 480px;
-    margin: 0 auto 24px;
-    border: 1px solid var(--cream);
-  }
-
-  .summary-card h4 {
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--gray);
-    margin-bottom: 12px;
-  }
-
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 13px;
-    border-bottom: 1px solid var(--cream);
-  }
-
-  .summary-row:last-child { border: none; }
-
-  .summary-row .label { color: var(--gray); }
-  .summary-row .value { color: var(--dark); font-weight: 600; }
-
-  .action-note {
-    background: linear-gradient(135deg, rgba(217, 65, 148, 0.08) 0%, rgba(255, 117, 31, 0.08) 100%);
-    border: 1px solid rgba(217, 65, 148, 0.15);
-    border-radius: 16px;
-    padding: 16px 20px;
-    max-width: 480px;
-    margin: 0 auto 24px;
-    font-size: 13px;
-    color: var(--dark);
-    line-height: 1.5;
-  }
-
-  .action-note strong {
-    color: var(--pink);
-  }
-
-  .fade-in {
-    animation: fadeIn 0.4s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (max-width: 1024px) {
-    .app { grid-template-columns: 1fr; }
-    .sidebar { position: relative; top: 0; }
-    .nav-list { flex-direction: row; overflow-x: auto; gap: 8px; padding-bottom: 8px; }
-    .nav-item { flex-shrink: 0; }
-  }
-
-  @media (max-width: 640px) {
-    .app { padding: 16px; gap: 16px; }
-    .content { padding: 24px; }
-    .form-grid { grid-template-columns: 1fr; }
-    .options-grid, .options-grid.cols-4 { grid-template-columns: 1fr 1fr; }
-    .size-grid { grid-template-columns: repeat(3, 1fr); }
-    .header { padding: 20px; flex-direction: column; gap: 16px; align-items: flex-start; }
-    .header-title { font-size: 22px; }
-    .form-footer { flex-direction: column; gap: 16px; }
-    .footer-actions { width: 100%; flex-wrap: wrap; }
-    .btn { flex: 1; justify-content: center; }
-    .success-screen .footer-actions { flex-direction: column; }
-  }
-
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: var(--cream-soft); }
-  ::-webkit-scrollbar-thumb { background: var(--gradient); border-radius: 100px; }
+}
 </style>
 </head>
 <body>
 
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo-area">
-      <img src="logo-rocha-content.jpeg" alt="Rocha Content" class="logo-img">
-      <span class="logo-tag">Briefing</span>
-    </div>
+<header class="app-header">
+  <img id="logo" alt="Rocha Content" class="app-logo">
+  <span class="step-counter" id="stepCounter">1 / 7</span>
+</header>
 
-    <p class="nav-title">Etapas</p>
-    <ul class="nav-list" id="navList">
-      <li class="nav-item active" data-step="0">
-        <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        Sobre a marca
-      </li>
-      <li class="nav-item" data-step="1">
-        <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-        Público-alvo
-      </li>
-      <li class="nav-item" data-step="2">
-        <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 22a10 10 0 110-20 8 8 0 018 8 5 5 0 01-5 5h-2.5a1.5 1.5 0 00-1.06 2.56A1.5 1.5 0 0112 22z"/></svg></div>
-        Identidade visual
-      </li>
-      <li class="nav-item" data-step="3">
-        <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-        Redes sociais
-      </li>
-      <li class="nav-item" data-step="4">
-        <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-        Objetivos
-      </li>
-      <li class="nav-item" data-step="5">
-        <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-        Tom de voz
-      </li>
-      <li class="nav-item" data-step="6">
-        <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 010-4h12v4M4 6v12c0 1.1.9 2 2 2h14v-4M18 12a2 2 0 000 4h4v-4z"/></svg></div>
-        Kit de boas-vindas
-      </li>
-    </ul>
-
-    <div class="progress-card">
-      <p class="progress-label">Progresso</p>
-      <div class="progress-percentage" id="progressPct">0%</div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-      </div>
-      <p class="progress-text" id="progressText">Etapa 1 de 7</p>
-    </div>
-  </aside>
-
-  <main class="main">
-    <header class="header">
-      <div class="header-left">
-        <p class="breadcrumb">Briefing inicial</p>
-        <h1 class="header-title" id="mainTitle">Olá! Vamos começar?</h1>
-      </div>
-      <div class="header-actions">
-        <button class="icon-btn" title="Salvar">
-          <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2zM17 21v-8H7v8M7 3v5h8"/></svg>
-        </button>
-        <button class="icon-btn" title="Ajuda">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
-        </button>
-      </div>
-    </header>
-
-    <section class="content" id="content"></section>
-  </main>
+<div class="progress-section">
+  <div class="progress-info">
+    <span class="progress-label" id="progressLabel">Sobre a marca</span>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
 </div>
 
+<main class="app-main" id="main"></main>
+
+<footer class="app-footer" id="footer">
+  <button class="btn btn-back" id="prevBtn" disabled>
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  </button>
+  <button class="btn btn-next" id="nextBtn">
+    <span id="nextBtnText">Próximo</span>
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</footer>
+
+<div class="toast" id="toast">Preencha todos os campos</div>
+
 <script>
-  const WHATSAPP_NUMBER = '5511947890737';
+// Logo embutida
+var LOGO_B64 = 'data:image/jpeg;base64,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';
+document.getElementById('logo').src = LOGO_B64;
 
-  const steps = [
-    {
-      icon: '01', title: 'Sobre a marca', subtitle: 'Conta um pouco sobre o seu negócio',
-      headerTitle: 'Conta sobre sua marca',
-      fields: [
-        { type: 'text', name: 'brandName', label: 'Nome da marca', placeholder: 'Ex: LiderCast', required: true },
-        { type: 'text', name: 'ownerName', label: 'Nome do responsável', placeholder: 'Ex: Claudia Blanca', required: true },
-        { type: 'textarea', name: 'whatSells', label: 'O que você vende?', placeholder: 'Produtos, serviços, infoprodutos…', required: true, full: true },
-        { type: 'text', name: 'ticket', label: 'Ticket médio', placeholder: 'Ex: R$ 1.500', required: false },
-        { type: 'text', name: 'time', label: 'Há quanto tempo no mercado?', placeholder: 'Ex: 3 anos', required: false },
-        { type: 'textarea', name: 'differential', label: 'Quais seus diferenciais?', placeholder: 'O que te torna único no mercado?', required: false, full: true },
-        { type: 'textarea', name: 'mission', label: 'Missão, visão e valores', placeholder: 'Se já tiver definido, compartilha aqui', required: false, full: true }
-      ]
-    },
-    {
-      icon: '02', title: 'Público-alvo', subtitle: 'Quem você quer atingir',
-      headerTitle: 'Quem é seu público?',
-      fields: [
-        { type: 'textarea', name: 'idealClient', label: 'Quem é seu cliente ideal?', placeholder: 'Idade, gênero, profissão, dores, desejos…', required: true, full: true },
-        { type: 'textarea', name: 'notClient', label: 'Quem NÃO é seu público?', placeholder: 'Importante pra evitar conteúdo desalinhado', hint: 'Esse campo evita que o conteúdo erre o tom', required: false, full: true }
-      ]
-    },
-    {
-      icon: '03', title: 'Identidade visual', subtitle: 'Estilo e referências da marca',
-      headerTitle: 'Identidade visual',
-      fields: [
-        { type: 'options', name: 'hasManual', label: 'Tem manual de marca?', options: ['Sim, completo', 'Tenho parcialmente', 'Não tenho ainda'], required: true, full: true },
-        { type: 'textarea', name: 'visualStyle', label: 'Preferência de estilo visual', placeholder: 'Minimalista, colorido, sério, descontraído…', required: false, full: true },
-        { type: 'textarea', name: 'references', label: 'Referências que admira', placeholder: 'Perfis ou marcas que te inspiram visualmente', required: false, full: true },
-        { type: 'options', name: 'hasMedia', label: 'Tem fotos e vídeos disponíveis?', options: ['Sim, em quantidade', 'Tenho pouca coisa', 'Não tenho nada'], required: true, full: true },
-        { type: 'options', name: 'recordFreq', label: 'Frequência de gravação', options: ['Semanal', 'Quinzenal', 'Mensal', 'Sob demanda'], required: false, full: true }
-      ]
-    },
-    {
-      icon: '04', title: 'Redes sociais', subtitle: 'Onde sua marca está presente',
-      headerTitle: 'Suas redes sociais',
-      fields: [
-        { type: 'options', name: 'platforms', label: 'Quais redes quer trabalhar?', options: ['Instagram', 'TikTok'], multi: true, required: true, full: true },
-        { type: 'text', name: 'instagramHandle', label: '@ do Instagram', placeholder: '@suamarca', required: false },
-        { type: 'text', name: 'tiktokHandle', label: '@ do TikTok', placeholder: '@suamarca', required: false },
-        { type: 'options', name: 'hadManagement', label: 'Já teve gestão antes?', options: ['Sim, tive', 'Nunca tive'], required: true, full: true },
-        { type: 'textarea', name: 'whatWorked', label: 'O que funcionou ou não funcionou?', placeholder: 'Pode compartilhar aprendizados anteriores', required: false, full: true }
-      ]
-    },
-    {
-      icon: '05', title: 'Objetivos', subtitle: 'O que esperar dessa parceria',
-      headerTitle: 'Seus objetivos',
-      fields: [
-        { type: 'options', name: 'mainGoal', label: 'Objetivo principal agora', options: ['Crescer seguidores', 'Gerar leads', 'Vender mais', 'Construir autoridade'], required: true, full: true },
-        { type: 'textarea', name: 'launches', label: 'Lançamentos ou eventos previstos', placeholder: 'Próximos meses — algo importante a comunicar?', required: false, full: true },
-        { type: 'text', name: 'goal', label: 'Meta concreta', placeholder: 'Ex: 10K seguidores, R$ 50K em vendas', required: false, full: true }
-      ]
-    },
-    {
-      icon: '06', title: 'Tom de voz', subtitle: 'Como sua marca se comunica',
-      headerTitle: 'Tom de comunicação',
-      fields: [
-        { type: 'options', name: 'tone', label: 'Como quer ser visto?', options: ['Autoridade séria', 'Próximo e descontraído', 'Inspirador e motivador', 'Educativo e técnico'], required: true, full: true },
-        { type: 'textarea', name: 'avoid', label: 'Temas que NÃO quer abordar', placeholder: 'Política, religião, polêmicas específicas…', required: false, full: true },
-        { type: 'textarea', name: 'admire', label: 'Concorrentes que admira', placeholder: 'Perfis que te inspiram pelo tom de comunicação', required: false, full: true },
-        { type: 'textarea', name: 'avoidLooking', label: 'Quem NÃO quer parecer', placeholder: 'Concorrentes ou estilos a evitar', required: false, full: true }
-      ]
-    },
-    {
-      icon: '07', title: 'Kit de boas-vindas', subtitle: 'Vamos preparar um mimo especial pra você',
-      headerTitle: 'Seu kit de boas-vindas',
-      fields: [
-        { type: 'sizes', name: 'shirtSize', label: 'Tamanho da camisa', hint: 'Vamos enviar um kit pessoal pra você 💝', options: ['PP', 'P', 'M', 'G', 'GG', 'XG'], required: true, full: true },
-        { type: 'text', name: 'address', label: 'Endereço completo para envio', placeholder: 'Rua, número, complemento, bairro', required: false, full: true },
-        { type: 'text', name: 'cep', label: 'CEP', placeholder: '00000-000', required: false },
-        { type: 'text', name: 'cityState', label: 'Cidade / Estado', placeholder: 'São Paulo / SP', required: false }
-      ]
-    }
-  ];
+// Logo embutida
+var LOGO_B64 = document.getElementById('logo').src;
 
-  let currentStep = 0;
-  const formData = {};
-  const completed = new Set();
+var steps = [
+  {
+    icon: '01',
+    title: 'Sobre a marca',
+    subtitle: 'Conta um pouco sobre o seu negócio',
+    fields: [
+      { type: 'text', name: 'brandName', label: 'Nome da marca', placeholder: 'Ex: LiderCast' },
+      { type: 'text', name: 'ownerName', label: 'Nome do responsável', placeholder: 'Ex: Claudia Blanca' },
+      { type: 'textarea', name: 'whatSells', label: 'O que você vende?', placeholder: 'Produtos, serviços, infoprodutos...' },
+      { type: 'number', name: 'ticket', label: 'Ticket médio (R$)', placeholder: 'Ex: 1500', hint: 'Apenas números, sem pontos ou vírgulas' },
+      { type: 'number', name: 'time', label: 'Há quanto tempo no mercado? (em anos)', placeholder: 'Ex: 3', hint: 'Apenas números' },
+      { type: 'textarea', name: 'differential', label: 'Quais seus diferenciais?', placeholder: 'O que te torna único no mercado?' },
+      { type: 'textarea', name: 'mission', label: 'Missão, visão e valores', placeholder: 'Compartilha aqui em poucas linhas' }
+    ]
+  },
+  {
+    icon: '02',
+    title: 'Público-alvo',
+    subtitle: 'Quem você quer atingir',
+    fields: [
+      { type: 'textarea', name: 'idealClient', label: 'Quem é seu cliente ideal?', placeholder: 'Idade, gênero, profissão, dores, desejos...' },
+      { type: 'textarea', name: 'notClient', label: 'Quem NÃO é seu público?', placeholder: 'Importante pra evitar conteúdo desalinhado', hint: 'Esse campo evita que o conteúdo erre o tom' }
+    ]
+  },
+  {
+    icon: '03',
+    title: 'Identidade visual',
+    subtitle: 'Estilo e referências da marca',
+    fields: [
+      { type: 'options', name: 'hasManual', label: 'Tem manual de marca?', options: ['Sim, completo', 'Tenho parcialmente', 'Não tenho ainda'] },
+      { type: 'textarea', name: 'visualStyle', label: 'Preferência de estilo visual', placeholder: 'Minimalista, colorido, sério, descontraído...' },
+      { type: 'textarea', name: 'references', label: 'Referências que admira', placeholder: 'Perfis ou marcas que te inspiram visualmente' },
+      { type: 'options', name: 'hasMedia', label: 'Tem fotos e vídeos disponíveis?', options: ['Sim, em quantidade', 'Tenho pouca coisa', 'Não tenho nada'] },
+      { type: 'options', name: 'recordFreq', label: 'Frequência de gravação', options: ['Semanal', 'Quinzenal', 'Mensal', 'Sob demanda'] }
+    ]
+  },
+  {
+    icon: '04',
+    title: 'Redes sociais',
+    subtitle: 'Onde sua marca está presente',
+    fields: [
+      { type: 'options', name: 'platforms', label: 'Quais redes quer trabalhar?', options: ['Instagram', 'TikTok'], multi: true },
+      { type: 'text', name: 'instagramHandle', label: '@ do Instagram', placeholder: '@suamarca' },
+      { type: 'text', name: 'tiktokHandle', label: '@ do TikTok', placeholder: '@suamarca' },
+      { type: 'options', name: 'hadManagement', label: 'Já teve gestão antes?', options: ['Sim, tive', 'Nunca tive'] },
+      { type: 'textarea', name: 'whatWorked', label: 'O que funcionou ou não funcionou?', placeholder: 'Pode compartilhar aprendizados anteriores' }
+    ]
+  },
+  {
+    icon: '05',
+    title: 'Objetivos',
+    subtitle: 'O que esperar dessa parceria',
+    fields: [
+      { type: 'options', name: 'mainGoal', label: 'Objetivo principal agora', options: ['Crescer seguidores', 'Gerar leads', 'Vender mais', 'Construir autoridade'] },
+      { type: 'textarea', name: 'launches', label: 'Lançamentos ou eventos previstos', placeholder: 'Próximos meses - algo importante a comunicar?' },
+      { type: 'text', name: 'goal', label: 'Meta concreta', placeholder: 'Ex: 10K seguidores, R$ 50K em vendas' }
+    ]
+  },
+  {
+    icon: '06',
+    title: 'Tom de voz',
+    subtitle: 'Como sua marca se comunica',
+    fields: [
+      { type: 'options', name: 'tone', label: 'Como quer ser visto?', options: ['Autoridade séria', 'Próximo e descontraído', 'Inspirador e motivador', 'Educativo e técnico'] },
+      { type: 'textarea', name: 'avoid', label: 'Temas que NÃO quer abordar', placeholder: 'Política, religião, polêmicas específicas...' },
+      { type: 'textarea', name: 'admire', label: 'Concorrentes que admira', placeholder: 'Perfis que te inspiram pelo tom de comunicação' },
+      { type: 'textarea', name: 'avoidLooking', label: 'Quem NÃO quer parecer', placeholder: 'Concorrentes ou estilos a evitar' }
+    ]
+  },
+  {
+    icon: '07',
+    title: 'Dados extras',
+    subtitle: 'Últimas informações pra finalizar',
+    fields: [
+      { type: 'sizes', name: 'shirtSize', label: 'Tamanho da camisa', options: ['PP', 'P', 'M', 'G', 'GG', 'XG'] },
+      { type: 'text', name: 'address', label: 'Endereço completo', placeholder: 'Rua, número, complemento, bairro' },
+      { type: 'number', name: 'cep', label: 'CEP', placeholder: '00000000', hint: 'Apenas números, sem traço' },
+      { type: 'text', name: 'cityState', label: 'Cidade / Estado', placeholder: 'São Paulo / SP' }
+    ]
+  }
+];
 
-  const content = document.getElementById('content');
-  const navList = document.getElementById('navList');
-  const progressPct = document.getElementById('progressPct');
-  const progressFill = document.getElementById('progressFill');
-  const progressText = document.getElementById('progressText');
-  const mainTitle = document.getElementById('mainTitle');
+var currentStep = 0;
+var formData = {};
+var completed = {};
 
-  function render() {
-    if (currentStep >= steps.length) {
-      renderSuccess();
-      return;
-    }
+var main = document.getElementById('main');
+var footer = document.getElementById('footer');
+var prevBtn = document.getElementById('prevBtn');
+var nextBtn = document.getElementById('nextBtn');
+var nextBtnText = document.getElementById('nextBtnText');
+var stepCounter = document.getElementById('stepCounter');
+var progressLabel = document.getElementById('progressLabel');
+var progressPct = document.getElementById('progressPct');
+var progressFill = document.getElementById('progressFill');
+var toast = document.getElementById('toast');
 
-    const step = steps[currentStep];
-    mainTitle.textContent = step.headerTitle;
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
-    let html = `
-      <div class="fade-in">
-        <div class="step-header">
-          <div class="step-num">${step.icon}</div>
-          <div class="step-info">
-            <h2>${step.title}</h2>
-            <p>${step.subtitle}</p>
-          </div>
-        </div>
-        <div class="step-divider"></div>
-        <div class="form-grid">
-    `;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 2500);
+}
 
-    step.fields.forEach(field => {
-      const value = formData[field.name] || (field.multi ? [] : '');
-      const fullClass = field.full ? 'full' : '';
-
-      html += `<div class="form-group ${fullClass}">`;
-      html += `<label class="form-label">${field.label}${field.required ? '<span class="required">*</span>' : ''}</label>`;
-      if (field.hint) html += `<p class="form-hint">${field.hint}</p>`;
-
-      if (field.type === 'text') {
-        html += `<input type="text" class="form-input" data-name="${field.name}" placeholder="${field.placeholder || ''}" value="${value}">`;
-      } else if (field.type === 'textarea') {
-        html += `<textarea class="form-textarea" data-name="${field.name}" placeholder="${field.placeholder || ''}">${value}</textarea>`;
-      } else if (field.type === 'options') {
-        const colsClass = field.options.length === 4 ? 'cols-4' : '';
-        html += `<div class="options-grid ${colsClass}">`;
-        field.options.forEach(opt => {
-          const selected = field.multi
-            ? (value || []).includes(opt) ? 'selected' : ''
-            : value === opt ? 'selected' : '';
-          html += `
-            <div class="option-card ${selected}" data-name="${field.name}" data-value="${opt}" data-multi="${field.multi || false}">
-              <div class="option-check"></div>
-              ${opt}
-            </div>
-          `;
-        });
-        html += `</div>`;
-      } else if (field.type === 'sizes') {
-        html += `<div class="size-grid">`;
-        field.options.forEach(size => {
-          const selected = value === size ? 'selected' : '';
-          html += `<div class="size-card ${selected}" data-name="${field.name}" data-value="${size}">${size}</div>`;
-        });
-        html += `</div>`;
-      }
-      html += `</div>`;
-    });
-
-    html += `
-        </div>
-        <div class="form-footer">
-          <div class="step-indicator">
-            ${steps.map((_, i) => `
-              <div class="step-dot ${i === currentStep ? 'active' : ''} ${completed.has(i) ? 'completed' : ''}"></div>
-            `).join('')}
-          </div>
-          <div class="footer-actions">
-            <button class="btn btn-secondary" id="prevBtn" ${currentStep === 0 ? 'disabled' : ''}>
-              <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-              Voltar
-            </button>
-            <button class="btn btn-primary" id="nextBtn">
-              ${currentStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    content.innerHTML = html;
-    bindEvents();
-    updateProgress();
+function render() {
+  if (currentStep >= steps.length) {
+    renderSuccess();
+    return;
   }
 
-  function bindEvents() {
-    document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
-      input.addEventListener('input', e => {
-        formData[e.target.dataset.name] = e.target.value;
-      });
+  var step = steps[currentStep];
+  stepCounter.textContent = (currentStep + 1) + ' / ' + steps.length;
+  progressLabel.textContent = step.title;
+  prevBtn.disabled = currentStep === 0;
+  nextBtnText.textContent = currentStep === steps.length - 1 ? 'Finalizar' : 'Próximo';
+
+  var html = '<div class="fade-in">';
+  html += '<span class="step-tag">Etapa ' + step.icon + '</span>';
+  html += '<h1 class="step-title">' + step.title + '</h1>';
+  html += '<p class="step-subtitle">' + step.subtitle + '</p>';
+
+  for (var i = 0; i < step.fields.length; i++) {
+    var field = step.fields[i];
+    var value = formData[field.name];
+    if (value == null) value = field.multi ? [] : '';
+
+    html += '<div class="form-group">';
+    html += '<label class="form-label">' + field.label + '<span class="required">*</span></label>';
+    if (field.hint) html += '<p class="form-hint">' + field.hint + '</p>';
+
+    if (field.type === 'text') {
+      html += '<input type="text" class="input" data-name="' + field.name + '" placeholder="' + escapeHtml(field.placeholder || '') + '" value="' + escapeHtml(value) + '">';
+    } else if (field.type === 'number') {
+      html += '<input type="number" inputmode="numeric" pattern="[0-9]*" class="input" data-name="' + field.name + '" placeholder="' + escapeHtml(field.placeholder || '') + '" value="' + escapeHtml(value) + '" min="0">';
+    } else if (field.type === 'textarea') {
+      html += '<textarea class="textarea" data-name="' + field.name + '" placeholder="' + escapeHtml(field.placeholder || '') + '">' + escapeHtml(value) + '</textarea>';
+    } else if (field.type === 'options') {
+      var optsClass = field.options.length === 4 ? 'options options-4' : 'options';
+      html += '<div class="options-wrap" data-name="' + field.name + '"><div class="' + optsClass + '">';
+      for (var j = 0; j < field.options.length; j++) {
+        var opt = field.options[j];
+        var sel = field.multi ? (value.indexOf(opt) > -1 ? 'selected' : '') : (value === opt ? 'selected' : '');
+        html += '<div class="option ' + sel + '" data-name="' + field.name + '" data-value="' + escapeHtml(opt) + '" data-multi="' + (field.multi ? 'true' : 'false') + '">';
+        html += '<div class="option-check"></div>' + opt + '</div>';
+      }
+      html += '</div></div>';
+    } else if (field.type === 'sizes') {
+      html += '<div class="sizes-wrap" data-name="' + field.name + '"><div class="sizes">';
+      for (var k = 0; k < field.options.length; k++) {
+        var size = field.options[k];
+        var sel = value === size ? 'selected' : '';
+        html += '<div class="size ' + sel + '" data-name="' + field.name + '" data-value="' + size + '">' + size + '</div>';
+      }
+      html += '</div></div>';
+    }
+
+    html += '<div class="error-msg" data-error-for="' + field.name + '">Esse campo é obrigatório</div>';
+    html += '</div>';
+  }
+
+  html += '</div>';
+  main.innerHTML = html;
+
+  bindEvents();
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function bindEvents() {
+  var inputs = main.querySelectorAll('.input, .textarea');
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('input', function(e) {
+      formData[e.target.dataset.name] = e.target.value;
+      e.target.classList.remove('error');
+      var em = main.querySelector('[data-error-for="' + e.target.dataset.name + '"]');
+      if (em) em.classList.remove('show');
     });
+  }
 
-    document.querySelectorAll('.option-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const name = card.dataset.name;
-        const value = card.dataset.value;
-        const multi = card.dataset.multi === 'true';
+  var options = main.querySelectorAll('.option');
+  for (var i = 0; i < options.length; i++) {
+    options[i].addEventListener('click', function(e) {
+      var card = e.currentTarget;
+      var name = card.dataset.name;
+      var value = card.dataset.value;
+      var multi = card.dataset.multi === 'true';
 
-        if (multi) {
-          if (!formData[name]) formData[name] = [];
-          if (formData[name].includes(value)) {
-            formData[name] = formData[name].filter(v => v !== value);
-            card.classList.remove('selected');
-          } else {
-            formData[name].push(value);
-            card.classList.add('selected');
-          }
+      if (multi) {
+        if (!formData[name]) formData[name] = [];
+        var idx = formData[name].indexOf(value);
+        if (idx > -1) {
+          formData[name].splice(idx, 1);
+          card.classList.remove('selected');
         } else {
-          formData[name] = value;
-          document.querySelectorAll(`.option-card[data-name="${name}"]`).forEach(c => c.classList.remove('selected'));
+          formData[name].push(value);
           card.classList.add('selected');
         }
-      });
-    });
-
-    document.querySelectorAll('.size-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const name = card.dataset.name;
-        const value = card.dataset.value;
+      } else {
         formData[name] = value;
-        document.querySelectorAll(`.size-card[data-name="${name}"]`).forEach(c => c.classList.remove('selected'));
+        var allOpts = main.querySelectorAll('.option[data-name="' + name + '"]');
+        for (var j = 0; j < allOpts.length; j++) allOpts[j].classList.remove('selected');
         card.classList.add('selected');
-      });
-    });
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      if (currentStep > 0) {
-        currentStep--;
-        updateNav();
-        render();
       }
-    });
 
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      completed.add(currentStep);
-      currentStep++;
-      updateNav();
-      render();
+      var wrap = main.querySelector('.options-wrap[data-name="' + name + '"]');
+      if (wrap) wrap.classList.remove('error');
+      var em = main.querySelector('[data-error-for="' + name + '"]');
+      if (em) em.classList.remove('show');
     });
   }
 
-  function updateNav() {
-    document.querySelectorAll('.nav-item').forEach((item, i) => {
-      item.classList.toggle('active', i === currentStep);
-      item.classList.toggle('completed', completed.has(i));
+  var sizes = main.querySelectorAll('.size');
+  for (var i = 0; i < sizes.length; i++) {
+    sizes[i].addEventListener('click', function(e) {
+      var card = e.currentTarget;
+      var name = card.dataset.name;
+      var value = card.dataset.value;
+      formData[name] = value;
+      var allSizes = main.querySelectorAll('.size[data-name="' + name + '"]');
+      for (var j = 0; j < allSizes.length; j++) allSizes[j].classList.remove('selected');
+      card.classList.add('selected');
+
+      var wrap = main.querySelector('.sizes-wrap[data-name="' + name + '"]');
+      if (wrap) wrap.classList.remove('error');
+      var em = main.querySelector('[data-error-for="' + name + '"]');
+      if (em) em.classList.remove('show');
     });
   }
+}
 
-  function updateProgress() {
-    const pct = Math.round((completed.size / steps.length) * 100);
-    progressPct.textContent = pct + '%';
-    progressFill.style.width = pct + '%';
-    progressText.textContent = `Etapa ${Math.min(currentStep + 1, steps.length)} de ${steps.length}`;
+function validateStep() {
+  var step = steps[currentStep];
+  var isValid = true;
+  var firstErrorEl = null;
+
+  for (var i = 0; i < step.fields.length; i++) {
+    var field = step.fields[i];
+    var value = formData[field.name];
+    var isEmpty = field.multi
+      ? (!value || value.length === 0)
+      : (!value || (typeof value === 'string' && value.trim() === ''));
+
+    var em = main.querySelector('[data-error-for="' + field.name + '"]');
+
+    if (isEmpty) {
+      isValid = false;
+      if (em) em.classList.add('show');
+
+      if (field.type === 'text' || field.type === 'textarea' || field.type === 'number') {
+        var input = main.querySelector('[data-name="' + field.name + '"]');
+        if (input) {
+          input.classList.add('error');
+          if (!firstErrorEl) firstErrorEl = input;
+        }
+      } else if (field.type === 'options') {
+        var wrap = main.querySelector('.options-wrap[data-name="' + field.name + '"]');
+        if (wrap) {
+          wrap.classList.add('error');
+          if (!firstErrorEl) firstErrorEl = wrap;
+        }
+      } else if (field.type === 'sizes') {
+        var wrap = main.querySelector('.sizes-wrap[data-name="' + field.name + '"]');
+        if (wrap) {
+          wrap.classList.add('error');
+          if (!firstErrorEl) firstErrorEl = wrap;
+        }
+      }
+    }
   }
 
-  function renderSuccess() {
-    mainTitle.textContent = 'Briefing concluído';
-    progressPct.textContent = '100%';
-    progressFill.style.width = '100%';
-    progressText.textContent = 'Tudo pronto!';
-
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.add('completed'));
-
-    const filled = Object.keys(formData).filter(k => formData[k] && formData[k].length).length;
-
-    content.innerHTML = `
-      <div class="success-screen fade-in">
-        <div class="success-icon">
-          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-        </div>
-        <h2>Tudo certo, ${formData.ownerName || 'parceiro(a)'}!</h2>
-        <p>Recebemos seu briefing completo. A partir de agora começa nossa imersão na sua marca. Em breve você receberá os próximos passos no nosso grupo do WhatsApp.</p>
-
-        <div class="summary-card">
-          <h4>Resumo</h4>
-          <div class="summary-row"><span class="label">Marca</span><span class="value">${formData.brandName || '—'}</span></div>
-          <div class="summary-row"><span class="label">Objetivo principal</span><span class="value">${formData.mainGoal || '—'}</span></div>
-          <div class="summary-row"><span class="label">Tom de voz</span><span class="value">${formData.tone || '—'}</span></div>
-          <div class="summary-row"><span class="label">Tamanho da camisa</span><span class="value">${formData.shirtSize || '—'}</span></div>
-          <div class="summary-row"><span class="label">Campos preenchidos</span><span class="value">${filled} respostas</span></div>
-        </div>
-
-        <div class="action-note">
-          📎 <strong>Próximo passo:</strong> Clique em "Enviar pelo WhatsApp" — o PDF será gerado automaticamente e você só precisa anexá-lo na conversa que abrirá.
-        </div>
-
-        <div class="footer-actions" style="justify-content: center;">
-          <button class="btn btn-secondary" onclick="restart()">
-            <svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6M3.51 9A9 9 0 0118.36 5.64L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-            Refazer
-          </button>
-          <button class="btn btn-primary" onclick="downloadPDF()">
-            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            Baixar PDF
-          </button>
-          <button class="btn btn-whatsapp" onclick="sendWhatsApp()">
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.6 6.32A7.85 7.85 0 0012.05 4a7.94 7.94 0 00-6.88 11.93L4 20l4.18-1.1a7.93 7.93 0 003.87 1h.01c4.39 0 7.96-3.57 7.96-7.96a7.9 7.9 0 00-2.42-5.62zm-5.55 12.24a6.6 6.6 0 01-3.36-.92l-.24-.14-2.48.65.66-2.42-.16-.25a6.6 6.6 0 01-1.01-3.5 6.6 6.6 0 016.6-6.6c1.76 0 3.42.69 4.66 1.93a6.55 6.55 0 011.93 4.66 6.6 6.6 0 01-6.6 6.59zm3.62-4.94c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.45.1-.13.2-.51.64-.62.77-.11.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.52-.99-1.17-1.1-1.37-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.32-.34-.45-.34-.12 0-.25-.02-.38-.02-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.66 0 .98.71 1.92.81 2.05.1.13 1.4 2.13 3.39 2.99.47.2.84.33 1.13.42.48.15.91.13 1.25.08.38-.06 1.17-.48 1.34-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23z"/></svg>
-            Enviar pelo WhatsApp
-          </button>
-        </div>
-      </div>
-    `;
+  if (!isValid) {
+    showToast('Preencha todos os campos antes de continuar');
+    if (firstErrorEl) firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  function restart() {
-    currentStep = 0;
-    Object.keys(formData).forEach(k => delete formData[k]);
-    completed.clear();
-    updateNav();
-    render();
+  return isValid;
+}
+
+function updateProgress() {
+  var doneCount = 0;
+  for (var k in completed) doneCount++;
+  var pct = Math.round((doneCount / steps.length) * 100);
+  progressPct.textContent = pct + '%';
+  progressFill.style.width = pct + '%';
+}
+
+function renderSuccess() {
+  stepCounter.textContent = 'Concluído';
+  progressLabel.textContent = 'Tudo pronto!';
+  progressPct.textContent = '100%';
+  progressFill.style.width = '100%';
+  footer.style.display = 'none';
+
+  var filled = 0;
+  for (var k in formData) {
+    if (formData[k] && formData[k].length) filled++;
   }
 
-  function generatePDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+  var html = '<div class="success fade-in">';
+  html += '<div class="success-icon"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>';
+  html += '<h2>Tudo certo, ' + escapeHtml(formData.ownerName || 'parceiro(a)') + '!</h2>';
+  html += '<p>Recebemos seu briefing completo. Em breve você receberá os próximos passos no nosso grupo do WhatsApp.</p>';
 
-    const pink = [217, 65, 148];
-    const orange = [255, 117, 31];
-    const dark = [26, 22, 18];
-    const gray = [107, 98, 88];
-    const cream = [239, 224, 179];
+  html += '<div class="summary"><h4>Resumo</h4>';
+  html += '<div class="summary-row"><span class="label">Marca</span><span class="value">' + escapeHtml(formData.brandName || '-') + '</span></div>';
+  html += '<div class="summary-row"><span class="label">Objetivo</span><span class="value">' + escapeHtml(formData.mainGoal || '-') + '</span></div>';
+  html += '<div class="summary-row"><span class="label">Tom de voz</span><span class="value">' + escapeHtml(formData.tone || '-') + '</span></div>';
+  html += '<div class="summary-row"><span class="label">Preenchidos</span><span class="value">' + filled + ' respostas</span></div>';
+  html += '</div>';
 
-    doc.setFillColor(...pink);
-    doc.rect(0, 0, 210, 40, 'F');
-    doc.setFillColor(...orange);
-    doc.rect(0, 35, 210, 5, 'F');
+  html += '<div class="note">📎 Toque em <strong>"Baixar PDF"</strong> e envie o arquivo no nosso grupo do WhatsApp.</div>';
 
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(22);
-    doc.setFont('helvetica', 'bold');
-    doc.text('rocha content', 20, 22);
+  html += '<div class="success-actions">';
+  html += '<button class="btn btn-next" onclick="downloadPDF()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Baixar PDF</button>';
+  html += '<button class="btn btn-refazer" onclick="restart()">Refazer</button>';
+  html += '</div>';
 
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    doc.text('BRIEFING DE CLIENTE', 20, 30);
+  html += '</div>';
+  main.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-    const today = new Date().toLocaleDateString('pt-BR');
-    doc.setFontSize(9);
-    doc.text(today, 170, 22);
+function restart() {
+  currentStep = 0;
+  formData = {};
+  completed = {};
+  footer.style.display = '';
+  render();
+}
 
-    let y = 55;
+function generatePDF() {
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF();
 
-    doc.setTextColor(...dark);
-    doc.setFontSize(18);
-    doc.setFont('helvetica', 'bold');
-    doc.text(formData.brandName || 'Briefing', 20, y);
-    y += 7;
+  doc.setFillColor(217, 65, 148);
+  doc.rect(0, 0, 210, 40, 'F');
+  doc.setFillColor(255, 117, 31);
+  doc.rect(0, 35, 210, 5, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(22);
+  doc.setFont('helvetica', 'bold');
+  doc.text('rocha content', 20, 22);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.text('BRIEFING DE CLIENTE', 20, 30);
+
+  var today = new Date().toLocaleDateString('pt-BR');
+  doc.setFontSize(9);
+  doc.text(today, 170, 22);
+
+  var y = 55;
+  doc.setTextColor(26, 22, 18);
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text(formData.brandName || 'Briefing', 20, y);
+  y += 7;
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(107, 98, 88);
+  doc.text('Responsável: ' + (formData.ownerName || '-'), 20, y);
+  y += 12;
+
+  for (var i = 0; i < steps.length; i++) {
+    var step = steps[i];
+    if (y > 250) { doc.addPage(); y = 20; }
+
+    doc.setFillColor(239, 224, 179);
+    doc.rect(20, y - 5, 170, 9, 'F');
+    doc.setTextColor(26, 22, 18);
     doc.setFontSize(11);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...gray);
-    doc.text(`Responsável: ${formData.ownerName || '—'}`, 20, y);
+    doc.setFont('helvetica', 'bold');
+    doc.text(step.icon + '. ' + step.title.toUpperCase(), 22, y + 1);
     y += 12;
 
-    steps.forEach((step) => {
-      if (y > 250) {
-        doc.addPage();
-        y = 20;
-      }
+    for (var j = 0; j < step.fields.length; j++) {
+      var field = step.fields[j];
+      var value = formData[field.name];
+      var display = Array.isArray(value) ? value.join(', ') : (value || '-');
 
-      doc.setFillColor(...cream);
-      doc.rect(20, y - 5, 170, 9, 'F');
-      doc.setTextColor(...dark);
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${step.icon}. ${step.title.toUpperCase()}`, 22, y + 1);
-      y += 12;
+      if (y > 270) { doc.addPage(); y = 20; }
 
-      step.fields.forEach(field => {
-        const value = formData[field.name];
-        const display = Array.isArray(value) ? value.join(', ') : (value || '—');
-
-        if (y > 270) {
-          doc.addPage();
-          y = 20;
-        }
-
-        doc.setTextColor(...gray);
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'bold');
-        doc.text(field.label.toUpperCase(), 22, y);
-        y += 4;
-
-        doc.setTextColor(...dark);
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        const lines = doc.splitTextToSize(display, 165);
-        doc.text(lines, 22, y);
-        y += lines.length * 5 + 4;
-      });
-
-      y += 4;
-    });
-
-    const pageCount = doc.internal.getNumberOfPages();
-    for (let i = 1; i <= pageCount; i++) {
-      doc.setPage(i);
+      doc.setTextColor(107, 98, 88);
       doc.setFontSize(8);
-      doc.setTextColor(...gray);
-      doc.text(`rocha content · social media · página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+      doc.setFont('helvetica', 'bold');
+      doc.text(field.label.toUpperCase(), 22, y);
+      y += 4;
+
+      doc.setTextColor(26, 22, 18);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      var lines = doc.splitTextToSize(display, 165);
+      doc.text(lines, 22, y);
+      y += lines.length * 5 + 4;
     }
 
-    return doc;
+    y += 4;
   }
 
-  function downloadPDF() {
-    const doc = generatePDF();
-    const fileName = `briefing-${(formData.brandName || 'cliente').toLowerCase().replace(/\s+/g, '-')}.pdf`;
-    doc.save(fileName);
+  var pageCount = doc.internal.getNumberOfPages();
+  for (var p = 1; p <= pageCount; p++) {
+    doc.setPage(p);
+    doc.setFontSize(8);
+    doc.setTextColor(107, 98, 88);
+    doc.text('rocha content - página ' + p + ' de ' + pageCount, 105, 290, { align: 'center' });
   }
 
-  function sendWhatsApp() {
-    downloadPDF();
+  return doc;
+}
 
-    setTimeout(() => {
-      const message = encodeURIComponent(
-        `Olá Keth! 💕\n\nAcabei de preencher o briefing da minha marca *${formData.brandName || ''}*.\n\nO PDF completo foi baixado no meu dispositivo — vou anexá-lo agora nesta conversa.\n\nResponsável: ${formData.ownerName || ''}\nObjetivo: ${formData.mainGoal || ''}\n\nNo aguardo dos próximos passos! ✨`
-      );
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-    }, 800);
+function downloadPDF() {
+  var doc = generatePDF();
+  var fileName = 'briefing-' + (formData.brandName || 'cliente').toLowerCase().replace(/\s+/g, '-') + '.pdf';
+  doc.save(fileName);
+}
+
+prevBtn.addEventListener('click', function() {
+  if (currentStep > 0) {
+    currentStep--;
+    render();
   }
+});
 
-  navList.addEventListener('click', e => {
-    const item = e.target.closest('.nav-item');
-    if (!item) return;
-    const step = parseInt(item.dataset.step);
-    if (step <= currentStep || completed.has(step)) {
-      currentStep = step;
-      updateNav();
-      render();
-    }
-  });
+nextBtn.addEventListener('click', function() {
+  if (validateStep()) {
+    completed[currentStep] = true;
+    currentStep++;
+    render();
+  }
+});
 
-  render();
+render();
 </script>
 </body>
 </html>
